@@ -1,0 +1,16 @@
+API Resource Server
+===================
+
+This is an example of a basic API server that retrieves resources based on the URL pattern. It relies on a MongoDB instance and standard REST conventions.
+
+Getting Started
+===============
+
+Seed your MongoDB with some data. In your mongo client, run the following:
+
+    use test
+    db.notes.insert({"note": "This is a note."});
+
+1. Clone the repo.
+2. Run `go run server.go --databaseName=test --databaseUrl=localhost:27017`
+3. Go to `http://localhost:3000/notes`
