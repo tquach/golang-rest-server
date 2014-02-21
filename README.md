@@ -1,6 +1,8 @@
 API Resource Server
 ===================
 
+[![Build Status](https://travis-ci.org/tantastik/golang-rest-server.png?branch=master)](https://travis-ci.org/tantastik/golang-rest-server)
+
 This is an example of a basic API server that retrieves resources based on the URL pattern. It relies on a MongoDB instance and standard REST conventions.
 
 Getting Started
