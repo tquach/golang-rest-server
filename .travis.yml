@@ -1,0 +1,9 @@
+language: go
+go:
+  - "1.1"
+  - tip
+
+services: mongodb
+
+install:
+  - go get -u launchpad.net/gocheck

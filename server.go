@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"github.com/codegangsta/martini"
-	"github.com/codegangsta/martini-contrib/binding"
-	"github.com/codegangsta/martini-contrib/render"
-	"github.com/tantastik/golang-rest-demo/handlers"
+	"github.com/martini-contrib/binding"
+	"github.com/martini-contrib/render"
+	"github.com/tantastik/golang-rest-server/handlers"
 	"labix.org/v2/mgo"
 )
 
