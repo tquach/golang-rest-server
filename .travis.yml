@@ -8,3 +8,9 @@ services: mongodb
 install:
   - go get -d -v ./...
   - go get -u launchpad.net/gocheck
+  - go get code.google.com/p/go.tools/cmd/cover
+  - go get -u github.com/mattn/goveralls
+
+script:
+  - go test -v -covermode=count -coverprofile=coverage.out ./...
+  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci
