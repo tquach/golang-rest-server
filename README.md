@@ -14,5 +14,6 @@ Seed your MongoDB with some data. In your mongo client, run the following:
     db.notes.insert({"note": "This is a note."});
 
 1. Clone the repo.
-2. Run `go run server.go --databaseName=test --databaseUrl=localhost:27017`
-3. Go to `http://localhost:3000/notes`
+2. `go get -d ./...` or if you have gpm installed `gpm`.
+3. Run `go run server.go --databaseName=test --databaseUrl=localhost:27017`
+4. Go to `http://localhost:3000/notes`
