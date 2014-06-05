@@ -6,11 +6,13 @@ go:
 services: mongodb
 
 install:
-  - go get -d -v ./...
-  - go get -u launchpad.net/gocheck
-  - go get code.google.com/p/go.tools/cmd/cover
-  - go get -u github.com/mattn/goveralls
+- go get -d -v ./...
+- go get -u launchpad.net/gocheck
+- go get code.google.com/p/go.tools/cmd/cover
+- go get -u github.com/mattn/goveralls
 
 script:
-  - go test -v ./...
-  # - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci
+- go install -a -race std
+- export PATH=$HOME/gopath/bin:$PATH
+- ./check.sh
+- goveralls -coverprofile=profile.cov -service=travis-ci
