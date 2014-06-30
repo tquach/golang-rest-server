@@ -7,6 +7,7 @@ import (
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	. "launchpad.net/gocheck"
+	"net/http"
 	"testing"
 )
 
@@ -30,6 +31,15 @@ func (r *stubrender) Error(status int)                                          
 func (r *stubrender) Redirect(location string, status ...int)                                    {}
 func (r *stubrender) Template() *template.Template {
 	return nil
+}
+func (r *stubrender) Data(int, []byte) {
+}
+func (r *stubrender) Header() (h http.Header) {
+	return
+}
+func (r *stubrender) Status(int) {
+}
+func (r *stubrender) XML(int, interface{}) {
 }
 
 type Note struct {
