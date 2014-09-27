@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
+
 	"github.com/codegangsta/martini"
 	"github.com/martini-contrib/binding"
 	"github.com/martini-contrib/render"
-	"github.com/tantastik/golang-rest-server/handlers"
+	"github.com/tquach/golang-rest-server/handlers"
 	"labix.org/v2/mgo"
 )
 

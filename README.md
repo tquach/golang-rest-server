@@ -1,6 +1,6 @@
 ## API Resource Server
 
-[![Build Status](https://travis-ci.org/tantastik/golang-rest-server.png?branch=master)](https://travis-ci.org/tantastik/golang-rest-server) [![Coverage Status](https://coveralls.io/repos/tantastik/golang-rest-server/badge.png?branch=master)](https://coveralls.io/r/tantastik/golang-rest-server?branch=master)
+[![Build Status](https://travis-ci.org/tquach/golang-rest-server.png?branch=master)](https://travis-ci.org/tquach/golang-rest-server) [![Coverage Status](https://coveralls.io/repos/tquach/golang-rest-server/badge.png?branch=master)](https://coveralls.io/r/tquach/golang-rest-server?branch=master)
 
 This is an example of a basic API server that retrieves resources based on the URL pattern. It relies on a MongoDB instance and standard REST conventions.
 
