@@ -2,6 +2,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/go-martini/martini"
@@ -10,9 +11,20 @@ import (
 	"labix.org/v2/mgo/bson"
 )
 
-func SaveResource(req *http.Request, r render.Render, db *mgo.Database) {
-	contents := req.Body
-	println(contents)
+func SaveResource(p martini.Params, req *http.Request, r render.Render, db *mgo.Database) {
+	var data map[string]interface{}
+
+	resource := p["resource"]
+	decoder := json.NewDecoder(req.Body)
+
+	err := decoder.Decode(&data)
+	if err == nil {
+		db.C(resource).Insert(data)
+		r.JSON(201, &data)
+	} else {
+		r.JSON(400, map[string]string{"error": err.Error()})
+	}
+	return
 }
 
 // Retrieve an instance of the resource given the id. Assumes the resource name matches the collection name
