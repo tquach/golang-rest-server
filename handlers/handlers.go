@@ -2,15 +2,17 @@
 package handlers
 
 import (
-	"github.com/codegangsta/martini"
+	"net/http"
+
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
-	"net/http"
 )
 
 func SaveResource(req *http.Request, r render.Render, db *mgo.Database) {
-	r.JSON(200, "Not implemented")
+	contents := req.Body
+	println(contents)
 }
 
 // Retrieve an instance of the resource given the id. Assumes the resource name matches the collection name

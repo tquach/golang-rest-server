@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 
-	"github.com/codegangsta/martini"
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/binding"
 	"github.com/martini-contrib/render"
 	"github.com/tquach/golang-rest-server/handlers"

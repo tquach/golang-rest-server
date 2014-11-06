@@ -1,14 +1,15 @@
 package handlers
 
 import (
-	"github.com/codegangsta/martini"
-	"github.com/martini-contrib/render"
 	"html/template"
-	"labix.org/v2/mgo"
-	"labix.org/v2/mgo/bson"
-	. "launchpad.net/gocheck"
 	"net/http"
 	"testing"
+
+	"github.com/go-martini/martini"
+	"github.com/martini-contrib/render"
+	. "gopkg.in/check.v1"
+	"labix.org/v2/mgo"
+	"labix.org/v2/mgo/bson"
 )
 
 const (
@@ -59,7 +60,7 @@ var _ = Suite(&HandlersTestSuite{})
 func (s *HandlersTestSuite) SetUpSuite(c *C) {
 	session, err := mgo.Dial("localhost")
 	if err != nil {
-		panic(err)
+		c.Fatal("No database available.")
 	}
 
 	c.Assert(session, NotNil)
