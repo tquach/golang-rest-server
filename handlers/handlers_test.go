@@ -32,7 +32,7 @@ type HandlersTestSuite struct {
 var _ = Suite(&HandlersTestSuite{})
 
 func (s *HandlersTestSuite) SetUpSuite(c *C) {
-	session, err := mgo.Dial("local-api.crowdsurge.com")
+	session, err := mgo.Dial("localhost")
 	if err != nil {
 		c.Fatal("No database available.")
 	}
