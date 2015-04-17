@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/tquach/golang-rest-server.png?label=ready&title=Ready)](https://waffle.io/tquach/golang-rest-server)
 ## API Resource Server
 
 [![Build Status](https://travis-ci.org/tquach/golang-rest-server.png?branch=master)](https://travis-ci.org/tquach/golang-rest-server) [![Coverage Status](https://coveralls.io/repos/tquach/golang-rest-server/badge.png?branch=master)](https://coveralls.io/r/tquach/golang-rest-server?branch=master)
