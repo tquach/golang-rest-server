@@ -24,3 +24,5 @@ _testmain.go
 *.DS
 
 coverage.out
+
+golang-rest-server

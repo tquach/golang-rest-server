@@ -2,52 +2,72 @@ package main
 
 import (
 	"flag"
+	"log"
+	"net/http"
 
-	"github.com/go-martini/martini"
-	"github.com/martini-contrib/binding"
-	"github.com/martini-contrib/render"
-	"github.com/tquach/golang-rest-server/handlers"
-	"github.com/tquach/golang-rest-server/middleware"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/pat"
+	"github.com/tquach/golang-rest-server/controller"
+	"github.com/tquach/golang-rest-server/service"
 )
 
 // DATABASE_URL is of the form:
 //    [mongodb://][user:pass@]host1[:port1][,host2[:port2],...][/database][?options]
 var (
-	databaseUrl  = flag.String("databaseUrl", "localhost", "url of database, eg. mongodb://localhost:27017")
+	hostname     = flag.String("hostname", "localhost:9000", "hostname to bind to")
+	databaseURL  = flag.String("databaseURL", "localhost", "url of database, eg. mongodb://localhost:27017")
 	databaseName = flag.String("databaseName", "appDb", "database name, eg. myDatabase")
 )
 
-type Server struct {
-	*martini.Martini
-	martini.Router
+// Opts captures server options.
+type Opts struct {
+	url string
 }
 
-// Example of a basic document binding
+// Middleware is a wrapper for HTTP handler functions.
+type Middleware func(h http.Handler) http.Handler
+
+// Server defines the attributes in a web application server.
+type Server struct {
+	*pat.Router
+	middleware []Middleware
+}
+
+// Query contains properties for defining a database query.
 type Query struct {
 	MaxResults int `form:"max_results"`
 	Page       int `form:"page"`
 	Offset     int `form:"offset"`
 }
 
-// Adds routes to the server
-func (s *Server) AddRoutes() {
-	// Bind to a basic form for passing in additional query parameters
-	s.Get("/:resource/:id", binding.Bind(Query{}), handlers.GetResource)
-	s.Get("/:resource", binding.Bind(Query{}), handlers.ListResources)
-	s.Post("/:resource", handlers.SaveResource)
+// Use will append any middleware handlers.
+func (s *Server) Use(m Middleware) {
+	s.middleware = append(s.middleware, m)
 }
 
-func AppServer() *Server {
-	r := martini.NewRouter()
-	m := martini.New()
-	m.Use(martini.Logger())
-	m.Use(martini.Recovery())
-	m.Use(render.Renderer())
-	m.Use(middleware.Nsq())
-	m.Use(middleware.DB(*databaseUrl, *databaseName))
+// Start will chain all middleware and start up the server.
+func (s *Server) Start(bindURL string) error {
+	log.Printf("Starting server on %s...\n", bindURL)
+	return http.ListenAndServe(bindURL, s.Router)
+}
 
-	m.Action(r.Handle)
-	return &Server{m, r}
+// Ping returns a ping to the server.
+func Ping(w http.ResponseWriter, req *http.Request) {
+	w.Write([]byte("OK"))
+}
+
+// NewServer creates a new instance of the Server.
+func NewServer() *Server {
+	r := pat.New()
+	r.Get("/status", Ping)
+
+	s := &Server{
+		Router: r,
+	}
+
+	// Add common middleware components
+	s.Use(handlers.CORS())
+	return s
 }
 
 func main() {
@@ -55,11 +75,18 @@ func main() {
 	flag.Parse()
 
 	// Init the app server
-	s := AppServer()
+	s := NewServer()
+
+	repo, err := service.NewMongoRepository(*databaseURL, *databaseName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ctrl := controller.New(repo)
 
 	// Add some routes
-	s.AddRoutes()
+	s.Post("/:resource", ctrl.SaveResource)
 
-	// Run all the things
-	s.Run()
+	// Start up the server
+	log.Fatal(s.Start(*hostname))
 }

@@ -11,9 +11,16 @@ Seed your MongoDB with some data. In your mongo client, run the following:
     use test
     db.notes.insert({"note": "This is a note."});
 
-1. Clone the repo.
-2. `go get -d ./...` or if you have gpm installed `gpm`.
-3. Run `go run server.go --databaseName=test --databaseUrl=localhost:27017`
-4. Go to `http://localhost:3000/notes`
+## Start up the application server
 
-This is a work in progress.
+1. Install Godep with `go get -u github.com/tools/godeps`.
+2. Build the application with `make build`.
+3. Run the application within Docker or standalone.
+
+## Run modes
+* With Docker
+	* Run `make start`
+	* Access the server at `http://$DOCKER_IP:9000/`
+* Standalone
+	* Run `./golang-rest-server` will start the server at `http://localhost:9000/` and look for a mongo DB at `localhost`.
+	* Use command line arguments to override: `./golang-rest-server --help`
