@@ -4,9 +4,8 @@
 	"GodepVersion": "v74",
 	"Deps": [
 		{
-			"ImportPath": "github.com/gorilla/context",
-			"Comment": "v1.1-7-g08b5f42",
-			"Rev": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
+			"ImportPath": "github.com/bmizerany/pat",
+			"Rev": "c068ca2f0aacee5ac3681d68e4d0a003b7d1fd2c"
 		},
 		{
 			"ImportPath": "github.com/gorilla/handlers",
@@ -14,13 +13,9 @@
 			"Rev": "a5775781a543af3c6b9f5baf10995e4d14168950"
 		},
 		{
-			"ImportPath": "github.com/gorilla/mux",
-			"Comment": "v1.1-21-gcf79e51",
-			"Rev": "cf79e51a62d8219d52060dfc1b4e810414ba2d15"
-		},
-		{
-			"ImportPath": "github.com/gorilla/pat",
-			"Rev": "cf955c3d1f2c27ee96f93e9738085c762ff5f49d"
+			"ImportPath": "github.com/op/go-logging",
+			"Comment": "v1-7-g970db52",
+			"Rev": "970db520ece77730c7e4724c61121037378659d9"
 		},
 		{
 			"ImportPath": "gopkg.in/mgo.v2",
