@@ -5,7 +5,7 @@ TAG=latest
 deps:
 	@go get -u github.com/tools/godep
 	@go get -u github.com/alecthomas/gometalinter
-	@gometalinter -i
+	@gometalinter --install --update --force
 
 all: $(APP_NAME)
 
@@ -24,7 +24,7 @@ test: deps lint
 	@godep go test ./... 
 
 lint: 
-	@gometalinter --vendor --fast ./...
+	@gometalinter --vendor --disable gotype --fast ./...
 
 clean:
 	@rm -f $(APP_NAME)
