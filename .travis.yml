@@ -4,3 +4,7 @@ go:
   - 1.6
 
 services: mongodb
+
+install:
+  - go get github.com/tools/godeps
+  - make build
