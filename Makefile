@@ -5,7 +5,7 @@ TAG=latest
 deps:
 	@go get -u github.com/tools/godep
 	@go get -u github.com/alecthomas/gometalinter
-	@gometalinter --install --update --force
+	@gometalinter --install --update
 
 all: $(APP_NAME)
 
