@@ -3,12 +3,12 @@ go:
   - 1.7
   - 1.6
 
-install: true
+install:
+  - go get github.com/tools/godep
 
 services: 
   - mongodb
   - docker
 
 script:
-  - go get github.com/tools/godeps
-  - make build
+  - make test

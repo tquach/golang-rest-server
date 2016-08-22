@@ -24,5 +24,6 @@ _testmain.go
 *.DS
 
 coverage.out
+Godeps/_workspace
 
 golang-rest-server
