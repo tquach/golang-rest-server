@@ -3,9 +3,6 @@ go:
   - 1.7
   - 1.6
 
-install:
-  - go get github.com/tools/godep
-
 services: 
   - mongodb
   - docker
