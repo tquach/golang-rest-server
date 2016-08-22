@@ -5,6 +5,7 @@ TAG=latest
 deps:
 	@go get -u github.com/tools/godep
 	@go get -u github.com/alecthomas/gometalinter
+	@gometalinter -i
 
 all: $(APP_NAME)
 
