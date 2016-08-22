@@ -12,7 +12,7 @@ $(APP_NAME): test
 	@echo "Running tests..."
 	@godep go build .
 
-build:
+build: test
 	@echo "Building ${APP_NAME}/${APP_NAME}:${TAG} ..."
 	docker build -t $(REPO)/$(APP_NAME):$(TAG) .
 
@@ -32,4 +32,4 @@ deploy: build
 	docker push $(REPO)/$(APP_NAME):$(TAG) 
 
 .PHONY:
-	start clean test build deploy
+	start clean test build deploy lint deps
