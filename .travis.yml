@@ -8,5 +8,4 @@ services:
   - docker
 
 script:
-  - go get github.com/tools/godep
   - make build

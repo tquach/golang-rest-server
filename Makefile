@@ -3,7 +3,8 @@ APP_NAME=golang-rest-server
 TAG=latest
 
 deps:
-	@hash godep || { echo "Install godep first: go get github.com/tools/godep"; exit 1; }
+	@go get -u github.com/tools/godep
+	@go get -u github.com/alecthomas/gometalinter
 
 all: $(APP_NAME)
 
@@ -18,8 +19,11 @@ build:
 start: build
 	docker run -it --rm --name $(APP_NAME) -p 9000:9000 $(REPO)/$(APP_NAME) golang-rest-server --hostname localhost:9000
 
-test: deps
+test: deps lint
 	@godep go test ./... 
+
+lint: 
+	@gometalinter --vendor --fast
 
 clean:
 	@rm -f $(APP_NAME)

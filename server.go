@@ -5,9 +5,10 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/bmizerany/pat"
 	"github.com/gorilla/handlers"
-	"github.com/gorilla/pat"
-	"github.com/tquach/golang-rest-server/controller"
+	"github.com/tquach/golang-rest-server/ctrl"
+	"github.com/tquach/golang-rest-server/logger"
 	"github.com/tquach/golang-rest-server/service"
 )
 
@@ -19,25 +20,14 @@ var (
 	databaseName = flag.String("databaseName", "appDb", "database name, eg. myDatabase")
 )
 
-// Opts captures server options.
-type Opts struct {
-	url string
-}
-
 // Middleware is a wrapper for HTTP handler functions.
 type Middleware func(h http.Handler) http.Handler
 
 // Server defines the attributes in a web application server.
 type Server struct {
-	*pat.Router
+	mux        *pat.PatternServeMux
+	logger     logger.Logger
 	middleware []Middleware
-}
-
-// Query contains properties for defining a database query.
-type Query struct {
-	MaxResults int `form:"max_results"`
-	Page       int `form:"page"`
-	Offset     int `form:"offset"`
 }
 
 // Use will append any middleware handlers.
@@ -45,24 +35,37 @@ func (s *Server) Use(m Middleware) {
 	s.middleware = append(s.middleware, m)
 }
 
-// Start will chain all middleware and start up the server.
-func (s *Server) Start(bindURL string) error {
-	log.Printf("Starting server on %s...\n", bindURL)
-	return http.ListenAndServe(bindURL, s.Router)
+// AddRoute will map a handler to an endpoint and HTTP method. All HTTP methods supported.
+func (s *Server) AddRoute(method string, path string, hdlr http.HandlerFunc) {
+	s.mux.Add(method, path, hdlr)
 }
 
-// Ping returns a ping to the server.
-func Ping(w http.ResponseWriter, req *http.Request) {
-	w.Write([]byte("OK"))
+// Get adds a GET handler on the given path.
+func (s *Server) Get(path string, hdlr http.HandlerFunc) {
+	s.AddRoute("GET", path, hdlr)
+}
+
+// Post adds a POST handler on the given path.
+func (s *Server) Post(path string, hdlr http.HandlerFunc) {
+	s.AddRoute("POST", path, hdlr)
+}
+
+func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	s.logger.Infof("Serving request")
+	s.mux.ServeHTTP(w, req)
+}
+
+// Start will chain all middleware and start up the server.
+func (s *Server) Start(bindURL string) error {
+	s.logger.Infof("Starting server on %s...\n", bindURL)
+	return http.ListenAndServe(bindURL, s)
 }
 
 // NewServer creates a new instance of the Server.
 func NewServer() *Server {
-	r := pat.New()
-	r.Get("/status", Ping)
-
 	s := &Server{
-		Router: r,
+		mux:    pat.New(),
+		logger: logger.New("app-server"),
 	}
 
 	// Add common middleware components
@@ -82,10 +85,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ctrl := controller.New(repo)
+	c := ctrl.New(repo)
 
 	// Add some routes
-	s.Post("/:resource", ctrl.SaveResource)
+	s.Get("/:resource/:id", c.FindResource)
+	s.Post("/:resource", c.SaveResource)
 
 	// Start up the server
 	log.Fatal(s.Start(*hostname))
