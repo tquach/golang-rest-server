@@ -23,7 +23,7 @@ test: deps lint
 	@godep go test ./... 
 
 lint: 
-	@gometalinter --vendor --fast
+	@gometalinter --vendor --fast ./...
 
 clean:
 	@rm -f $(APP_NAME)
