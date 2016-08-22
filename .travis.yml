@@ -5,7 +5,9 @@ go:
 
 install: true
 
-services: mongodb
+services: 
+  - mongodb
+  - docker
 
 script:
   - go get github.com/tools/godeps
